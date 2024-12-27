@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  node1:
+    image: ubuntu-node:development
+    container_name: kubelet-node1
+    stdin_open: true
+    tty: true
+    privileged: true
+    volumes:
+      - ./kubernetes:/app/kubernetes
+      - ./vscode:/app/kubernetes/.vscode
+    environment:
+      - KUBELET_FLAGS=--cgroups-per-qos=false --enforce-node-allocatable=
+      - PATH=$PATH:/app/kubernetes/_output/bin 
+      - KUBECONFIG=/var/run/kubernetes/admin.kubeconfig
+    working_dir: /app/kubernetes
