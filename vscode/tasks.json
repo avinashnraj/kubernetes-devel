@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "start-etcd",
+            "type": "shell",
+            "command": "/usr/local/bin/etcd",
+            "problemMatcher": [],
+            "isBackground": true
+        }
+    ]
+  }
+  

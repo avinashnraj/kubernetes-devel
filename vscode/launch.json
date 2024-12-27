@@ -2,6 +2,19 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "Run etcd",
+        "type": "go",
+        "request": "launch",
+        "mode": "exec",
+        "program": "/usr/local/bin/etcd",
+        "args": [],
+        "env": {
+          "GO111MODULE": "on"
+        },
+        "cwd": "${workspaceFolder}"
+      },
+      {
+        "preLaunchTask": "start-etcd",
         "name": "Debug kube-apiserver",
         "type": "go",
         "request": "launch",
@@ -16,18 +29,18 @@
           "--cloud-config=",
           "--v=3",
           "--vmodule=",
-          "--audit-policy-file=/tmp/local-up-cluster.sh.rccMJp/kube-audit-policy-file",
+          "--audit-policy-file=/tmp/local-up-cluster.sh.qEgQ9B/kube-audit-policy-file",
           "--audit-log-path=/tmp/kube-apiserver-audit.log",
           "--cert-dir=/var/run/kubernetes",
-          "--egress-selector-config-file=/tmp/local-up-cluster.sh.rccMJp/kube_egress_selector_configuration.yaml",
+          "--egress-selector-config-file=/tmp/local-up-cluster.sh.qEgQ9B/kube_egress_selector_configuration.yaml",
           "--client-ca-file=/var/run/kubernetes/client-ca.crt",
           "--kubelet-client-certificate=/var/run/kubernetes/client-kube-apiserver.crt",
           "--kubelet-client-key=/var/run/kubernetes/client-kube-apiserver.key",
-          "--service-account-key-file=/tmp/local-up-cluster.sh.rccMJp/kube-serviceaccount.key",
+          "--service-account-key-file=/tmp/local-up-cluster.sh.qEgQ9B/kube-serviceaccount.key",
           "--service-account-lookup=true",
           "--service-account-issuer=https://kubernetes.default.svc",
           "--service-account-jwks-uri=https://kubernetes.default.svc/openid/v1/jwks",
-          "--service-account-signing-key-file=/tmp/local-up-cluster.sh.rccMJp/kube-serviceaccount.key",
+          "--service-account-signing-key-file=/tmp/local-up-cluster.sh.qEgQ9B/kube-serviceaccount.key",
           "--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,Priority,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction",
           "--disable-admission-plugins=",
           "--admission-control-config-file=",
@@ -63,7 +76,7 @@
         "program": "${workspaceFolder}/cmd/kube-controller-manager/controller-manager.go",
         "args": [
           "--v=3",
-          "--service-account-private-key-file=/tmp/local-up-cluster.sh.rccMJp/kube-serviceaccount.key",
+          "--service-account-private-key-file=/tmp/local-up-cluster.sh.qEgQ9B/kube-serviceaccount.key",
           "--service-cluster-ip-range=10.0.0.0/24",
           "--root-ca-file=/var/run/kubernetes/server-ca.crt",
           "--cluster-signing-cert-file=/var/run/kubernetes/client-ca.crt",
@@ -94,7 +107,7 @@
         "program": "${workspaceFolder}/cmd/kube-scheduler/scheduler.go",
         "args": [
           "--v=3",
-          "--config=/tmp/local-up-cluster.sh.rccMJp/kube-scheduler.yaml",
+          "--config=/tmp/local-up-cluster.sh.qEgQ9B/kube-scheduler.yaml",
           "--feature-gates=AllAlpha=false",
           "--authentication-kubeconfig=/var/run/kubernetes/scheduler.kubeconfig",
           "--authorization-kubeconfig=/var/run/kubernetes/scheduler.kubeconfig",
@@ -122,7 +135,7 @@
             "--kubeconfig=/var/run/kubernetes/kubelet-rotated.kubeconfig",
             "--cgroups-per-qos=false",
             "--enforce-node-allocatable=",
-            "--config=/tmp/local-up-cluster.sh.rccMJp/kubelet.yaml"
+            "--config=/tmp/local-up-cluster.sh.qEgQ9B/kubelet.yaml"
         ],
         "env": {
             "GO111MODULE": "on",
