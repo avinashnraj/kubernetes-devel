@@ -103,7 +103,7 @@ RUN mkdir -p /etc/cni/net.d && \
     }' > /etc/cni/net.d/99-loopback.conf
 
 # Install Delve debugger
-# RUN go install github.com/go-delve/delve/cmd/dlv@latest
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
 # Expose necessary ports (optional)
 EXPOSE 80 443
