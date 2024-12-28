@@ -26,7 +26,6 @@ build-up:
 
 clean:
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
-	$(DOCKER) rmi ubuntu-node:development
 
 create-cluster:
 	kind cluster create --config $(KIND_CONFIG)

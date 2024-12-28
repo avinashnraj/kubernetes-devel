@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VERSION="v1.27.1"
-ENV GO_VERSION="1.22.6"
+ENV GO_VERSION="1.23.0"
 ENV GOPATH="/go"
 ENV PATH="$GOPATH/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:$PATH"
 
