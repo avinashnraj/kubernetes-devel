@@ -1,4 +1,5 @@
 DOCKER_COMPOSE = docker-compose
+DOCKER = docker
 KIND_CLUSTER_NAME = kube-development
 KIND_NODE_IMAGE = kindest/node:latest
 KIND_CONFIG = ./../kind-config.yaml
@@ -12,15 +13,20 @@ up:
 	$(DOCKER_COMPOSE) up -d
 
 down:
-	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) down -v
 
 build:
-	docker build -t ubuntu-node:development .
-rebuild:
+	$(DOCKER) build -t ubuntu-node:development .
+
+exec:
+	$(DOCKER_COMPOSE) exec -ti node1 bash
+
+build-up:
 	$(DOCKER_COMPOSE) up --build -d
 
 clean:
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
+	$(DOCKER) rmi ubuntu-node:development
 
 create-cluster:
 	kind cluster create --config $(KIND_CONFIG)
