@@ -14,6 +14,8 @@ up:
 down:
 	$(DOCKER_COMPOSE) down
 
+build:
+	docker build -t ubuntu-node:development .
 rebuild:
 	$(DOCKER_COMPOSE) up --build -d
 

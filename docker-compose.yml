@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   node1:
     image: ubuntu-node:development
@@ -8,10 +6,10 @@ services:
     tty: true
     privileged: true
     volumes:
-      - ./kubernetes:/app/kubernetes
-      - ./vscode:/app/kubernetes/.vscode
+      - ./kubernetes:/app/kubernetes:rw
+      - ./vscode:/app/kubernetes/.vscode:rw
+      - ./kubernetes/build/root/Makefile:/app/kubernetes/Makefile:ro
     environment:
       - KUBELET_FLAGS=--cgroups-per-qos=false --enforce-node-allocatable=
-      - PATH=$PATH:/app/kubernetes/_output/bin 
       - KUBECONFIG=/var/run/kubernetes/admin.kubeconfig
     working_dir: /app/kubernetes

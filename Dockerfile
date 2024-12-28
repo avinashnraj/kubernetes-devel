@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV VERSION="v1.27.1"
 ENV GO_VERSION="1.22.6"
 ENV GOPATH="/go"
-ENV PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
+ENV PATH="$GOPATH/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:$PATH"
 
 # Add and update GPG keys for Ubuntu repositories
 RUN apt-get update && apt-get install -y gnupg2 && apt-get clean && \
@@ -103,7 +103,7 @@ RUN mkdir -p /etc/cni/net.d && \
     }' > /etc/cni/net.d/99-loopback.conf
 
 # Install Delve debugger
-RUN go install github.com/go-delve/delve/cmd/dlv@latest
+# RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
 # Expose necessary ports (optional)
 EXPOSE 80 443
