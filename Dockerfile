@@ -1,5 +1,5 @@
 # Use an Ubuntu base image
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     jq \
     rsync \
+    kmod \
+    iptables \
     && apt-get clean
 
 # Install Go

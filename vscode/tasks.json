@@ -1,13 +1,23 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "start-etcd",
-            "type": "shell",
-            "command": "/usr/local/bin/etcd",
-            "problemMatcher": [],
-            "isBackground": true
+      {
+        "label": "setup-environment",
+        "type": "shell",
+        "command": "echo 'Setting up environment'",
+        "problemMatcher": [],
+        "options": {
+          "env": {
+            "LOCAL_CLUSTER_DIR": "/tmp/local-up-cluster.sh.5IkdZQ"
+          }
         }
+      },
+      {
+        "label": "start-etcd",
+        "type": "shell",
+        "command": "/usr/local/bin/etcd",
+        "problemMatcher": []
+      }
     ]
   }
   
