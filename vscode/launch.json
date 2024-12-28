@@ -2,18 +2,6 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "Run etcd",
-        "type": "go",
-        "request": "launch",
-        "mode": "exec",
-        "program": "/usr/local/bin/etcd",
-        "args": [],
-        "env": {
-          "GO111MODULE": "on"
-        },
-        "cwd": "${workspaceFolder}"
-      },
-      {
         "preLaunchTask": "start-etcd",
         "name": "Debug kube-apiserver",
         "type": "go",
@@ -141,7 +129,6 @@
             "GO111MODULE": "on",
         },
         "cwd": "${workspaceFolder}",
-        "sudo": true
     }
     ]
   }
