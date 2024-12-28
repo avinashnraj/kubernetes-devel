@@ -54,11 +54,11 @@ RUN wget https://github.com/opencontainers/runc/releases/download/v1.1.3/runc.am
     rm runc.amd64
 
 # Install etcd
-RUN wget https://github.com/etcd-io/etcd/releases/download/v3.5.0/etcd-v3.5.0-linux-amd64.tar.gz && \
-    tar xzvf etcd-v3.5.0-linux-amd64.tar.gz && \
-    mv etcd-v3.5.0-linux-amd64/etcd /usr/local/bin/etcd && \
-    mv etcd-v3.5.0-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
-    rm -rf etcd-v3.5.0-linux-amd64.tar.gz etcd-v3.5.0-linux-amd64
+RUN wget https://github.com/etcd-io/etcd/releases/download/v3.5.16/etcd-v3.5.16-linux-amd64.tar.gz && \
+    tar xzvf etcd-v3.5.16-linux-amd64.tar.gz && \
+    mv etcd-v3.5.16-linux-amd64/etcd /usr/local/bin/etcd && \
+    mv etcd-v3.5.16-linux-amd64/etcdctl /usr/local/bin/etcdctl && \
+    rm -rf etcd-v3.5.16-linux-amd64.tar.gz etcd-v3.5.16-linux-amd64
 
 # Install CNI plugins
 RUN wget https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-amd64-v1.1.1.tgz && \
