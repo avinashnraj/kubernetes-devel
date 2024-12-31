@@ -1,135 +1,131 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "preLaunchTask": "start-etcd",
-        "name": "Debug kube-apiserver",
-        "type": "go",
-        "request": "launch",
-        "mode": "debug",
-        "program": "${workspaceFolder}/cmd/kube-apiserver/apiserver.go",
-        "args": [
-          "--etcd-servers=http://127.0.0.1:2379",
-          "--authorization-mode=Node,RBAC",
-          "--authorization-webhook-config-file=",
-          "--authentication-token-webhook-config-file=",
-          "--cloud-provider=",
-          "--cloud-config=",
-          "--v=3",
-          "--vmodule=",
-          "--audit-policy-file=/tmp/local-up-cluster.sh.6IQWTs/kube-audit-policy-file",
-          "--audit-log-path=/tmp/kube-apiserver-audit.log",
-          "--cert-dir=/var/run/kubernetes",
-          "--egress-selector-config-file=/tmp/local-up-cluster.sh.6IQWTs/kube_egress_selector_configuration.yaml",
-          "--client-ca-file=/var/run/kubernetes/client-ca.crt",
-          "--kubelet-client-certificate=/var/run/kubernetes/client-kube-apiserver.crt",
-          "--kubelet-client-key=/var/run/kubernetes/client-kube-apiserver.key",
-          "--service-account-key-file=/tmp/local-up-cluster.sh.6IQWTs/kube-serviceaccount.key",
-          "--service-account-lookup=true",
-          "--service-account-issuer=https://kubernetes.default.svc",
-          "--service-account-jwks-uri=https://kubernetes.default.svc/openid/v1/jwks",
-          "--service-account-signing-key-file=/tmp/local-up-cluster.sh.6IQWTs/kube-serviceaccount.key",
-          "--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,Priority,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,NodeRestriction",
-          "--disable-admission-plugins=",
-          "--admission-control-config-file=",
-          "--bind-address=0.0.0.0",
-          "--secure-port=6443",
-          "--tls-cert-file=/var/run/kubernetes/serving-kube-apiserver.crt",
-          "--tls-private-key-file=/var/run/kubernetes/serving-kube-apiserver.key",
-          "--storage-backend=etcd3",
-          "--storage-media-type=application/vnd.kubernetes.protobuf",
-          "--service-cluster-ip-range=10.0.0.0/24",
-          "--feature-gates=AllAlpha=false",
-          "--external-hostname=localhost",
-          "--requestheader-username-headers=X-Remote-User",
-          "--requestheader-group-headers=X-Remote-Group",
-          "--requestheader-extra-headers-prefix=X-Remote-Extra-",
-          "--requestheader-client-ca-file=/var/run/kubernetes/request-header-ca.crt",
-          "--requestheader-allowed-names=system:auth-proxy",
-          "--proxy-client-cert-file=/var/run/kubernetes/client-auth-proxy.crt",
-          "--proxy-client-key-file=/var/run/kubernetes/client-auth-proxy.key"
-        ],
-        "env": {
-          "GO111MODULE": "on"
-        },
-        "buildFlags": "",
-        "cwd": "${workspaceFolder}"
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug kube-apiserver",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/kube-apiserver/apiserver.go",
+      "args": [
+        "--v=4",
+        "--advertise-address=172.18.0.3",
+        "--allow-privileged=true",
+        "--authorization-mode=Node,RBAC",
+        "--client-ca-file=/etc/kubernetes/pki/ca.crt",
+        "--enable-admission-plugins=NodeRestriction",
+        "--enable-bootstrap-token-auth=true",
+        "--etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt",
+        "--etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt",
+        "--etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key",
+        "--etcd-servers=https://127.0.0.1:2379",
+        "--kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt",
+        "--kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key",
+        "--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname",
+        "--proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt",
+        "--proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key",
+        "--requestheader-allowed-names=front-proxy-client",
+        "--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt",
+        "--requestheader-extra-headers-prefix=X-Remote-Extra-",
+        "--requestheader-group-headers=X-Remote-Group",
+        "--requestheader-username-headers=X-Remote-User",
+        "--runtime-config=",
+        "--secure-port=6443",
+        "--service-account-issuer=https://kubernetes.default.svc.cluster.local",
+        "--service-account-key-file=/etc/kubernetes/pki/sa.pub",
+        "--service-account-signing-key-file=/etc/kubernetes/pki/sa.key",
+        "--service-cluster-ip-range=10.96.0.0/16",
+        "--tls-cert-file=/etc/kubernetes/pki/apiserver.crt",
+        "--tls-private-key-file=/etc/kubernetes/pki/apiserver.key"
+      ],
+      "env": {
+        "GO111MODULE": "on",
+        "GOPATH": "/go",
+        "PATH": "/go/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:${env:PATH}"
       },
-      {
-        "name": "Debug kube-controller-manager",
-        "type": "go",
-        "request": "launch",
-        "mode": "debug",
-        "program": "${workspaceFolder}/cmd/kube-controller-manager/controller-manager.go",
-        "args": [
-          "--v=3",
-          "--service-account-private-key-file=/tmp/local-up-cluster.sh.6IQWTs/kube-serviceaccount.key",
-          "--service-cluster-ip-range=10.0.0.0/24",
-          "--root-ca-file=/var/run/kubernetes/server-ca.crt",
-          "--cluster-signing-cert-file=/var/run/kubernetes/client-ca.crt",
-          "--cluster-signing-key-file=/var/run/kubernetes/client-ca.key",
-          "--enable-hostpath-provisioner=false",
-          "--pvclaimbinder-sync-period=15s",
-          "--feature-gates=AllAlpha=false",
-          "--authentication-kubeconfig=/var/run/kubernetes/controller.kubeconfig",
-          "--authorization-kubeconfig=/var/run/kubernetes/controller.kubeconfig",
-          "--kubeconfig=/var/run/kubernetes/controller.kubeconfig",
-          "--use-service-account-credentials",
-          "--controllers=*",
-          "--leader-elect=false",
-  //        "--cert-dir=/var/run/kubernetes",
-          "--master=https://localhost:6443"
-        ],
-        "env": {
-          "GO111MODULE": "on"
-        },
-        "buildFlags": "",
-        "cwd": "${workspaceFolder}"
+      "buildFlags": "",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug kube-controller-manager",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/kube-controller-manager/controller-manager.go",
+      "args": [
+        "--allocate-node-cidrs=true",
+        "--authentication-kubeconfig=/etc/kubernetes/controller-manager.conf",
+        "--authorization-kubeconfig=/etc/kubernetes/controller-manager.conf",
+        "--bind-address=127.0.0.1",
+        "--client-ca-file=/etc/kubernetes/pki/ca.crt",
+        "--cluster-cidr=10.244.0.0/16",
+        "--cluster-name=kube-dev-cluster",
+        "--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt",
+        "--cluster-signing-key-file=/etc/kubernetes/pki/ca.key",
+        "--controllers=*,bootstrapsigner,tokencleaner",
+        "--enable-hostpath-provisioner=true",
+        "--kubeconfig=/etc/kubernetes/controller-manager.conf",
+        "--leader-elect=true",
+        "--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt",
+        "--root-ca-file=/etc/kubernetes/pki/ca.crt",
+        "--service-account-private-key-file=/etc/kubernetes/pki/sa.key",
+        "--service-cluster-ip-range=10.96.0.0/16",
+        "--use-service-account-credentials=true"
+      ],
+      "env": {
+        "GO111MODULE": "on",
+        "GOPATH": "/go",
+        "PATH": "/go/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:${env:PATH}"
       },
-      {
-        "name": "Debug kube-scheduler",
-        "type": "go",
-        "request": "launch",
-        "mode": "debug",
-        "program": "${workspaceFolder}/cmd/kube-scheduler/scheduler.go",
-        "args": [
-          "--v=3",
-          "--config=/tmp/local-up-cluster.sh.6IQWTs/kube-scheduler.yaml",
-          "--feature-gates=AllAlpha=false",
-          "--authentication-kubeconfig=/var/run/kubernetes/scheduler.kubeconfig",
-          "--authorization-kubeconfig=/var/run/kubernetes/scheduler.kubeconfig",
-          "--master=https://localhost:6443"
-        ],
-        "env": {
-          "GO111MODULE": "on"
-        },
-        "buildFlags": "",
-        "cwd": "${workspaceFolder}"
+      "buildFlags": "",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug kube-scheduler",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/kube-scheduler/scheduler.go",
+      "args": [
+        "--authentication-kubeconfig=/etc/kubernetes/scheduler.conf",
+        "--authorization-kubeconfig=/etc/kubernetes/scheduler.conf",
+        "--bind-address=127.0.0.1",
+        "--kubeconfig=/etc/kubernetes/scheduler.conf",
+        "--leader-elect=true"
+      ],
+      "env": {
+        "GO111MODULE": "on",
+        "GOPATH": "/go",
+        "PATH": "/go/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:${env:PATH}"
+
       },
-      {
-        "name": "Debug Kubelet",
-        "type": "go",
-        "request": "launch",
-        "mode": "debug",
-        "program": "/usr/bin/kubelet", 
-        "args": [
-            "--v=3",
-            "--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf",
-            "--kubeconfig=/etc/kubernetes/kubelet.conf",
-            "--config=/var/lib/kubelet/config.yaml",
-            "--container-runtime-endpoint=unix:///run/containerd/containerd.sock",
-            "--node-ip=172.18.0.3",
-            "--node-labels=",
-            "--pod-infra-container-image=registry.k8s.io/pause:3.9",
-            "--provider-id=kind://docker/kube-development/kube-development-worker",
-            "--runtime-cgroups=/system.slice/containerd.service"
-        ],
-        "env": {
-            "GO111MODULE": "on"
-        },
-        "cwd": "${workspaceFolder}"
-    }
-    
-    ]
+      "buildFlags": "",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug Kubelet",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/kubelet/kubelet.go", 
+      "args": [
+      "--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf",
+      "--kubeconfig=/etc/kubernetes/kubelet.conf", 
+      "--config=/var/lib/kubelet/config.yaml", 
+      "--container-runtime-endpoint=unix:///run/containerd/containerd.sock",
+      "--node-ip=172.18.0.2",
+      "--node-labels=",
+      "--pod-infra-container-image=registry.k8s.io/pause:3.10",
+      "--provider-id=kind://docker/kube-development/kube-dev-cluster-worker",
+      "--runtime-cgroups=/system.slice/containerd.service"
+    ],
+      "env": {
+          "GO111MODULE": "on",
+          "GOPATH": "/go",
+          "PATH": "/go/bin:/usr/local/go/bin:/app/kubernetes/_output/bin:${env:PATH}"  
+      },
+      "cwd": "${workspaceFolder}",
+      "sudo": true
   }
-  
+  ]
+}
