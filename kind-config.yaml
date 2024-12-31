@@ -2,6 +2,17 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:development
+    image: kube-node:development
+    extraMounts:
+    - hostPath: ./kubernetes
+      containerPath: /app/kubernetes
+    - hostPath: ./setup-debug-environment.sh
+      containerPath: /app/tools/setup-debug-environment.sh
+
   - role: worker
-    image: kindest/node:development
+    image: kube-node:development
+    extraMounts:
+    - hostPath: ./kubernetes
+      containerPath: /app/kubernetes
+    - hostPath: ./setup-debug-environment.sh
+      containerPath: /app/tools/setup-debug-environment.sh

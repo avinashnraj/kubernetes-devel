@@ -1,8 +1,8 @@
 DOCKER_COMPOSE = docker-compose
 DOCKER = docker
-KIND_CLUSTER_NAME = kube-development
-KIND_NODE_IMAGE = kindest/node:latest
-KIND_CONFIG = ./../kind-config.yaml
+KIND_CLUSTER_NAME = kube-dev-cluster
+KIND_NODE_IMAGE = kindest/kube-node:development
+KIND_CONFIG = ./kind-config.yaml
 K3D_CLUSTER_NAME = mytest-cluster
 K3D_CONFIG = ./k3d-cluster.yaml
 
@@ -16,7 +16,7 @@ down:
 	$(DOCKER_COMPOSE) down -v
 
 build:
-	$(DOCKER) build -t ubuntu-node:development .
+	$(DOCKER) build --platform=linux/amd64 -t ubuntu-node:development .
 
 exec:
 	$(DOCKER_COMPOSE) exec -ti node1 bash
@@ -27,22 +27,22 @@ build-up:
 clean:
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 
-create-cluster:
-	kind cluster create --config $(KIND_CONFIG)
+kind-create-cluster:
+	kind create cluster -n ${KIND_CLUSTER_NAME} --config ${KIND_CONFIG} -v 100000
 
-delete-cluster:
-	kind delete cluster $(KIND_CLUSTER_NAME)
+kind-delete-cluster:
+	kind delete clusters $(KIND_CLUSTER_NAME)
 
-build-node-image:
-	kind build node-image .
+kind-build:
+	kind build node-image --image kube-node:development ${PWD}/kubernetes/
 
-list-clusters:
+kind-list-clusters:
 	kind cluster list
 
-get-clusters:
+kind-get-clusters:
 	kind get clusters
 
-load-image:
+kind-load-image:
 	kind load docker-image $(KIND_NODE_IMAGE)
 
 help-config:

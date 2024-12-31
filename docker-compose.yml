@@ -1,9 +1,7 @@
 services:
   node1:
-    image: ubuntu-node:development
+    image: kindest/node:development
     container_name: kubelet-node1
-    stdin_open: true
-    tty: true
     privileged: true
     volumes:
       - ./kubernetes:/app/kubernetes:rw
@@ -13,3 +11,4 @@ services:
       - KUBELET_FLAGS=--cgroups-per-qos=false --enforce-node-allocatable=
       - KUBECONFIG=/var/run/kubernetes/admin.kubeconfig
     working_dir: /app/kubernetes
+    command: /usr/local/bin/entrypoint
