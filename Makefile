@@ -5,10 +5,20 @@ KIND_NODE_IMAGE = kindest/kube-node:development
 KIND_CONFIG = ./kind-config.yaml
 K3D_CLUSTER_NAME = mytest-cluster
 K3D_CONFIG = ./k3d-cluster.yaml
+METRICS_FOLDER = ./metrics
 
-.PHONY: up down rebuild clean create-cluster delete-cluster build-node-image list-clusters get-clusters load-image help-config vi-config \
+.PHONY: all-up all-down up down build exec build-up clean kind-create-cluster kind-delete-cluster kind-build \
+        kind-list-clusters kind-get-clusters kind-load-image help-config vi-config \
         create-k3d-cluster delete-k3d-cluster exec-k3d-server exec-k3d-agent k3d-list-clusters k3d-kubeconfig
 
+init-submodule:
+	@echo "Initializing and updating submodules..."
+	git submodule init
+	git submodule update --remote
+	@echo "Checking out specific tag..."
+	cd kubernetes && git fetch --tags && git checkout v1.32.0
+
+# Docker Compose actions
 up:
 	$(DOCKER_COMPOSE) up -d
 
@@ -27,17 +37,18 @@ build-up:
 clean:
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 
+# Kind cluster actions
 kind-create-cluster:
-	kind create cluster -n ${KIND_CLUSTER_NAME} --config ${KIND_CONFIG} -v 100000
+	kind create cluster -n $(KIND_CLUSTER_NAME) --config $(KIND_CONFIG) -v 100000
 
 kind-delete-cluster:
-	kind delete clusters $(KIND_CLUSTER_NAME)
+	kind delete cluster --name $(KIND_CLUSTER_NAME)
 
 kind-build:
-	kind build node-image --image kube-node:development ${PWD}/kubernetes/
+	kind build node-image --image $(KIND_NODE_IMAGE) $(PWD)/kubernetes/
 
 kind-list-clusters:
-	kind cluster list
+	kind get clusters
 
 kind-get-clusters:
 	kind get clusters
@@ -51,6 +62,7 @@ help-config:
 vi-config:
 	vi $(KIND_CONFIG)
 
+# K3D cluster actions
 create-k3d-cluster:
 	k3d cluster create --config $(K3D_CONFIG)
 
@@ -68,3 +80,11 @@ k3d-list-clusters:
 
 k3d-kubeconfig:
 	export KUBECONFIG=$$(k3d kubeconfig write $(K3D_CLUSTER_NAME))
+
+all-up: kind-create-cluster
+	cd ${METRICS_FOLDER} && $(MAKE) all k6-test
+
+all-down: kind-delete-cluster clean
+	${DOCKER} system prune -f --volumes
+	${DOCKER} image prune -f
+

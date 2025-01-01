@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-lua-deployment
+  labels:
+    app: nginx-lua
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-lua
+  template:
+    metadata:
+      labels:
+        app: nginx-lua
+    spec:
+      containers:
+      - name: nginx-lua
+        image: nginx-with-lua-delay:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m          # Request 50m CPU to make the HPA scale easily
+            memory: 64Mi      # Adjust memory request
+          limits:
+            cpu: 100m         # Limit CPU to 100m
+            memory: 128Mi     # Adjust memory limit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-lua-service
+spec:
+  selector:
+    app: nginx-lua
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-lua-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-lua-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
